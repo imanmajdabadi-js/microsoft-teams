@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import VanArdselPage from './pages/vanArdsel'
 import Chat from './pages/chat'
 import ActivityPage from './pages/activity'
@@ -8,17 +8,12 @@ import CallsPage from './pages/calls'
 import FilesPage from './pages/files'
 import AppsPage from './pages/apps'
 import MainLayout from './components/mainLayout'
-import { useEffect } from 'react'
 
 function App() {
-  useEffect(() => {
-    if (window.location.pathname === '/') {
-      window.location.pathname = '/van-ardsel/home'
-    }
-  }, [])
   return (
     <MainLayout>
       <Routes>
+        <Route path='/' element={<Navigate to='/van-ardsel/home' replace />} />
         <Route path='/activity' element={<ActivityPage />} />
         <Route path='/chat' element={<Chat />} />
         <Route path='/teams' element={<TeamsPage />} />

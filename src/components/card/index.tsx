@@ -26,7 +26,7 @@ const Card: FC<CardProps> = ({ title, description, timePeriods, imageUrl, label1
         <p className='text-[#616161] font-normal text-xs mt-1'>{description}</p>
         <div className='flex gap-x-4  items-center ml-5'>
           <p className='text-[#242424] border-b-2 text-sm border-[#5B5FC7]'>
-            {timePeriods?.period1 || <div className='mt-4'></div>}
+            {timePeriods?.period1 || <span className='mt-4 block' aria-hidden='true' />}
           </p>
           <p className='text-[#424242] text-sm'>{timePeriods?.period2 || ''}</p>
           <p className='text-[#424242] text-sm'>{timePeriods?.period3 || ''}</p>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import IconElement from '../iconElement/IconElement'
 import { Call, Notification } from 'iconsax-react'
@@ -12,7 +12,7 @@ import { ReactComponent as More } from '../../assests/icons/More.svg'
 import useDevice from '@/hooks/useDevice'
 import { mergeClasses } from '../utils'
 
-const navItems = [
+const mainNavItems = [
   { name: 'Activity', path: '/activity', icon: <IconElement icon={Notification} /> },
   { name: 'Chat', path: '/chat', icon: <IconElement icon={Chat} /> },
   { name: 'Teams', path: '/teams', icon: <IconElement icon={TeamsIcon} /> },
@@ -23,15 +23,15 @@ const navItems = [
   { name: 'Apps', path: '/apps', icon: <IconElement icon={Apps} /> },
 ]
 
+const moreNavItem = { name: 'More', path: '/more', icon: <IconElement icon={More} /> }
+
 const Navbar: FC = () => {
   const { isTabletOrMobile } = useDevice()
 
   let wrapperClass = 'bg-custom-gradient-navbar-header w-20 h-full flex flex-col'
   let innerWrapperClass = 'flex flex-col items-center'
-  let index = 7
 
   if (isTabletOrMobile) {
-    index = 4
     wrapperClass = mergeClasses(wrapperClass, 'w-full', 'h-auto', 'flex-row')
     innerWrapperClass = mergeClasses(
       innerWrapperClass,
@@ -42,38 +42,37 @@ const Navbar: FC = () => {
       'w-full',
     )
   }
-  if (navItems.length < 9) {
-    navItems.splice(index, 0, { name: 'More', path: '/more', icon: <IconElement icon={More} /> })
-  }
+
+  const visibleNavItems = isTabletOrMobile
+    ? [...mainNavItems.slice(0, 4), moreNavItem]
+    : [...mainNavItems.slice(0, 7), moreNavItem, ...mainNavItems.slice(7)]
 
   return (
     <div className={wrapperClass}>
       <div className={innerWrapperClass}>
-        {navItems
-          .filter((_, index) => (isTabletOrMobile ? index < 5 : true))
-          .map(({ name, path, icon }) => (
-            <NavLink
-              key={path}
-              to={path}
-              className={({ isActive }) => {
-                return mergeClasses({
-                  'mt-3': !isTabletOrMobile,
-                  'text-[10px]': true,
-                  'text-nowrap': true,
-                  'border-l-2': isActive && !isTabletOrMobile,
-                  'border-b-2': isActive && isTabletOrMobile,
-                  'border-[#5B5FC7]': isActive,
-                  'hover:text-gray-300': !isActive,
-                  'w-full': isActive,
-                })
-              }}
-            >
-              <div className='flex flex-col items-center gap-2'>
-                <span>{icon}</span>
-                <span className='text-[#673333]'>{name}</span>
-              </div>
-            </NavLink>
-          ))}
+        {visibleNavItems.map(({ name, path, icon }) => (
+          <NavLink
+            key={path}
+            to={path}
+            className={({ isActive }) => {
+              return mergeClasses({
+                'mt-3': !isTabletOrMobile,
+                'text-[10px]': true,
+                'text-nowrap': true,
+                'border-l-2': isActive && !isTabletOrMobile,
+                'border-b-2': isActive && isTabletOrMobile,
+                'border-[#5B5FC7]': isActive,
+                'hover:text-gray-300': !isActive,
+                'w-full': isActive,
+              })
+            }}
+          >
+            <div className='flex flex-col items-center gap-2'>
+              <span>{icon}</span>
+              <span className='text-[#673333]'>{name}</span>
+            </div>
+          </NavLink>
+        ))}
       </div>
     </div>
   )

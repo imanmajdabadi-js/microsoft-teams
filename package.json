@@ -25,6 +25,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "test": "craco test",
     "lint:json": "eslint '**/*.json'"
   },
   "eslintConfig": {
