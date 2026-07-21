@@ -50,7 +50,7 @@ const MobileLayout: FC<PropsWithChildren> = ({ children }) => {
           </NavLink>
         ))}
       </nav>
-      <div className='mx-4 abbas'>{children}</div>
+      <div className='w-full min-w-0'>{children}</div>
     </div>
   )
 }

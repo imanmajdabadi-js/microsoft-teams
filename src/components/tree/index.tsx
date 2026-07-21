@@ -10,28 +10,38 @@ export type TreeNode = {
 interface TreeProps {
   data: TreeNode[]
   onNodeSelect?: (key: string) => void
-  onNodeExpand?: (key: string) => void
-  onNodeCollapse?: (key: string) => void
   expandedKeys?: string[]
 }
 
-const Tree: FC<TreeProps> = ({ expandedKeys, data, onNodeSelect }) => {
+const Tree: FC<TreeProps> = ({ expandedKeys = [], data, onNodeSelect }) => {
   return (
-    <ul className='ml-2 mt-5'>
-      {data.map((node) => (
-        <li className='mt-2 pl-3' key={node.key}>
-          <div className='flex items-center gap-x-2 '>
-            <Anchor
-              onClick={() => onNodeSelect?.(node.key)}
-              exapnded={expandedKeys?.some((exKey) => exKey === node.key)}
-            />
-            <p className='text-[#424242] text-sm font-normal'> {node.title}</p>
-          </div>
-          {expandedKeys?.some((exKey) => exKey === node.key) && node.children && (
-            <Tree data={node.children} expandedKeys={expandedKeys} onNodeSelect={onNodeSelect} />
-          )}
-        </li>
-      ))}
+    <ul className='space-y-1'>
+      {data.map((node) => {
+        const hasChildren = Boolean(node.children?.length)
+        const isExpanded = expandedKeys.includes(node.key)
+
+        return (
+          <li key={node.key}>
+            <div className='flex min-h-8 items-center gap-1 rounded-md px-1 hover:bg-[#F2F2F7]'>
+              {hasChildren ? (
+                <Anchor
+                  label={node.title}
+                  onClick={() => onNodeSelect?.(node.key)}
+                  expanded={isExpanded}
+                />
+              ) : (
+                <span className='block h-6 w-6' aria-hidden='true' />
+              )}
+              <span className='text-sm font-normal text-[#424242]'>{node.title}</span>
+            </div>
+            {isExpanded && node.children && (
+              <div className='ml-4 border-l border-[#E1E1E8] pl-2'>
+                <Tree data={node.children} expandedKeys={expandedKeys} onNodeSelect={onNodeSelect} />
+              </div>
+            )}
+          </li>
+        )
+      })}
     </ul>
   )
 }

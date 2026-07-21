@@ -1,75 +1,90 @@
 import IconElement from '@/components/iconElement/IconElement'
-import { ArrowDown2, HambergerMenu } from 'iconsax-react'
 import { ReactComponent as SearchIcon } from '@/assests/icons/search-icon.svg'
-import useDevice from '@/hooks/useDevice'
+import { FC } from 'react'
+import { WorkFilter } from '../dashboardData'
 
-const Filter = () => {
-  const { isTabletOrMobile } = useDevice()
+interface FilterProps {
+  activeFilter: WorkFilter
+  searchQuery: string
+  resultCount: number
+  totalCount: number
+  onFilterChange: (filter: WorkFilter) => void
+  onSearchChange: (query: string) => void
+}
+
+const filterOptions: Array<{ label: string; value: WorkFilter }> = [
+  { label: 'All work', value: 'all' },
+  { label: 'At risk', value: 'at-risk' },
+  { label: 'Due this week', value: 'due-soon' },
+  { label: 'Completed', value: 'completed' },
+]
+
+const Filter: FC<FilterProps> = ({
+  activeFilter,
+  searchQuery,
+  resultCount,
+  totalCount,
+  onFilterChange,
+  onSearchChange,
+}) => {
   return (
-    <div
-      className={`w-full h-20 flex px-5 justify-center border-t border-b items-center ${isTabletOrMobile ? 'hidden' : ''}`}
-    >
-      <div className='w-3/4 flex items-center gap-x-4'>
-        <div className='flex items-center gap-x-2'>
-          <IconElement className='text-[#424242] w-8 h-8' icon={HambergerMenu} />
-          <div className='flex items-center gap-x-2'>
-            <button className='font-semibold text-sm px-4 py-2 flex items-center gap-x-2  bg-[#5B5FC7] rounded text-white'>
-              <div className='w-4 h-4 rounded-full border' />
-              Text
-              <IconElement className='text-white w-3 h-3' icon={ArrowDown2} />
-            </button>
-          </div>
-        </div>
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242] ' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-        </div>
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242]' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-          <div className='border-r-2 text-[#D1D1D1] w-5 h-8'></div>
+    <section className='border-y border-[#E1E1E8] bg-white px-4 py-3 sm:px-6'>
+      <div className='mx-auto flex max-w-[1500px] flex-col gap-3 xl:flex-row xl:items-center xl:justify-between'>
+        <div
+          className='flex gap-2 overflow-x-auto pb-1 xl:pb-0'
+          aria-label='Filter work items'
+          role='group'
+        >
+          {filterOptions.map((option) => {
+            const isActive = activeFilter === option.value
+
+            return (
+              <button
+                key={option.value}
+                type='button'
+                aria-pressed={isActive}
+                onClick={() => onFilterChange(option.value)}
+                className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'border-[#5B5FC7] bg-[#5B5FC7] text-white'
+                    : 'border-[#D1D1D8] bg-white text-[#424242] hover:border-[#5B5FC7]'
+                }`}
+              >
+                {option.label}
+              </button>
+            )
+          })}
         </div>
 
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242]' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-        </div>
-
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242]' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-        </div>
-
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242]' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-          <div className='border-r-2 text-[#D1D1D1] w-5 h-8'></div>
-        </div>
-
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242]' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-        </div>
-
-        <div className='flex items-center gap-x-1'>
-          <div className='w-4 h-4 rounded-full border border-[#424242]' />
-          <p className='text-[#424242] font-semibold text-sm'>Text</p>
-        </div>
-      </div>
-      <div className='w-1/3 h-full flex items-center'>
-        <div className='flex items-center gap-x-2'>
-          <p className='text-[#424242] text-sm font-semibold'>Filter</p>
-          <div className='flex items-center gap-x-2 '>
-            <input
-              type='search'
-              className='h-8 px-8 w-52 border relative text-sm font-normal rounded border-[#D1D1D1] border-b-[#616161]'
-              placeholder='Find'
+        <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3'>
+          <p className='text-xs text-[#616161]' aria-live='polite'>
+            {resultCount} of {totalCount} work items
+          </p>
+          <div className='relative'>
+            <label htmlFor='work-search' className='sr-only'>
+              Search tasks or owners
+            </label>
+            <IconElement
+              className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#616161]'
+              icon={SearchIcon}
+              aria-hidden='true'
             />
-            <IconElement className='text-[#616161] w-5 h-5 absolute ml-2' icon={SearchIcon} />
+            <input
+              id='work-search'
+              type='search'
+              value={searchQuery}
+              onChange={(event) => onSearchChange(event.target.value)}
+              className={`
+                h-10 w-full rounded-lg border border-[#D1D1D8] bg-white py-2 pl-9 pr-3
+                text-sm text-[#242424] outline-none transition focus:border-[#5B5FC7]
+                focus:ring-2 focus:ring-[#E3E3F7] sm:w-64
+              `}
+              placeholder='Search tasks or owners'
+            />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

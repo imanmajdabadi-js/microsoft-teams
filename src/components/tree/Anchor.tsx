@@ -3,16 +3,21 @@ import IconElement from '../iconElement/IconElement'
 
 interface AnchorProps {
   onClick: () => void
-  exapnded?: boolean
+  expanded?: boolean
+  label: string
 }
 
-const Anchor = ({ exapnded, ...rest }: AnchorProps) => {
+const Anchor = ({ expanded, label, onClick }: AnchorProps) => {
   return (
-    <IconElement
-      icon={exapnded ? ArrowDown2 : ArrowRight2}
-      className='text-[#424242] cursor-pointer w-3'
-      {...rest}
-    />
+    <button
+      type='button'
+      onClick={onClick}
+      aria-expanded={expanded}
+      aria-label={`${expanded ? 'Collapse' : 'Expand'} ${label}`}
+      className='flex h-6 w-6 items-center justify-center rounded text-[#424242] hover:bg-[#ECECF3]'
+    >
+      <IconElement icon={expanded ? ArrowDown2 : ArrowRight2} className='h-3.5 w-3.5' />
+    </button>
   )
 }
 
