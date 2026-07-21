@@ -31,3 +31,36 @@ test('redirects the root route to Van Arsdel home', async () => {
     expect(screen.getByTestId('current-path')).toHaveTextContent('/van-ardsel/home')
   })
 })
+
+test('renders a task through the nested workstream route', () => {
+  render(
+    <MemoryRouter
+      initialEntries={[
+        '/van-ardsel/workstreams/spring-campaign/tasks/review-campaign-numbers',
+      ]}
+    >
+      <App />
+    </MemoryRouter>,
+  )
+
+  expect(
+    screen.getByRole('heading', { name: 'Review spring campaign numbers' }),
+  ).toBeInTheDocument()
+  expect(screen.getByText('Decision needed')).toBeInTheDocument()
+})
+
+test('shows a recovery action for an invalid nested task route', () => {
+  render(
+    <MemoryRouter
+      initialEntries={['/van-ardsel/workstreams/spring-campaign/tasks/missing-task']}
+    >
+      <App />
+    </MemoryRouter>,
+  )
+
+  expect(screen.getByRole('heading', { name: 'Task not found' })).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Back to launch overview' })).toHaveAttribute(
+    'href',
+    '/van-ardsel/home',
+  )
+})

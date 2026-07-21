@@ -1,7 +1,7 @@
 import IconElement from '@/components/iconElement/IconElement'
 import { ReactComponent as SearchIcon } from '@/assests/icons/search-icon.svg'
 import { FC } from 'react'
-import { WorkFilter } from '../dashboardData'
+import { WorkFilter } from '../../../data/workspaceData'
 
 interface FilterProps {
   activeFilter: WorkFilter

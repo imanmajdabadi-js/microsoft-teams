@@ -1,9 +1,11 @@
 import { FC } from 'react'
+import { NavLink } from 'react-router-dom'
 import Anchor from './Anchor'
 
 export type TreeNode = {
   title: string
   key: string
+  path?: string
   children?: TreeNode[]
 }
 
@@ -32,7 +34,18 @@ const Tree: FC<TreeProps> = ({ expandedKeys = [], data, onNodeSelect }) => {
               ) : (
                 <span className='block h-6 w-6' aria-hidden='true' />
               )}
-              <span className='text-sm font-normal text-[#424242]'>{node.title}</span>
+              {node.path ? (
+                <NavLink
+                  to={node.path}
+                  className={({ isActive }) =>
+                    `flex-1 text-sm font-normal ${isActive ? 'text-[#5B5FC7]' : 'text-[#424242]'}`
+                  }
+                >
+                  {node.title}
+                </NavLink>
+              ) : (
+                <span className='text-sm font-normal text-[#424242]'>{node.title}</span>
+              )}
             </div>
             {isExpanded && node.children && (
               <div className='ml-4 border-l border-[#E1E1E8] pl-2'>

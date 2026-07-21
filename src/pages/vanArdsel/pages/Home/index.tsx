@@ -1,59 +1,15 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Filter from './components/filter'
-import Tree, { TreeNode } from '@/components/tree'
 import Card from '@/components/card'
-import { WorkFilter, WorkItem, WorkStatus, workItems } from './dashboardData'
-
-const workspaceTree: TreeNode[] = [
-  {
-    title: 'Product launch',
-    key: 'launch',
-    children: [
-      {
-        title: 'Launch overview',
-        key: 'launch-overview',
-      },
-      {
-        title: 'Spring campaign',
-        key: 'spring-campaign',
-      },
-      {
-        title: 'Retail partners',
-        key: 'retail-partners',
-      },
-      {
-        title: 'Creative assets',
-        key: 'creative-assets',
-      },
-    ],
-  },
-  {
-    title: 'Website refresh',
-    key: 'website',
-    children: [
-      {
-        title: 'Analytics review',
-        key: 'analytics-review',
-      },
-      {
-        title: 'Content updates',
-        key: 'content-updates',
-      },
-    ],
-  },
-]
-
-const statusLabels: Record<WorkStatus, string> = {
-  'in-progress': 'In progress',
-  'at-risk': 'At risk',
-  completed: 'Completed',
-}
-
-const statusClasses: Record<WorkStatus, string> = {
-  'in-progress': 'bg-[#E8F1FB] text-[#185B8C]',
-  'at-risk': 'bg-[#FDE7E9] text-[#A4262C]',
-  completed: 'bg-[#E7F3EC] text-[#107C41]',
-}
+import WorkStatusBadge from '../../components/workStatusBadge'
+import WorkspaceSidebar from '../../components/workspaceSidebar'
+import {
+  WorkFilter,
+  WorkItem,
+  getDueLabel,
+  workItems,
+} from '../../data/workspaceData'
 
 const matchesFilter = (item: WorkItem, filter: WorkFilter) => {
   if (filter === 'at-risk') {
@@ -71,35 +27,9 @@ const matchesFilter = (item: WorkItem, filter: WorkFilter) => {
   return true
 }
 
-const getDueLabel = (item: WorkItem) => {
-  if (item.status === 'completed') {
-    return 'Completed'
-  }
-
-  if (item.dueInDays === 0) {
-    return 'Due today'
-  }
-
-  if (item.dueInDays === 1) {
-    return 'Due tomorrow'
-  }
-
-  return `Due in ${item.dueInDays} days`
-}
-
 const Home = () => {
-  const [expandedKeys, setExpandedKeys] = useState<string[]>(['launch'])
   const [activeFilter, setActiveFilter] = useState<WorkFilter>('all')
   const [searchQuery, setSearchQuery] = useState('')
-
-  const handleNodeSelect = (key: string) => {
-    setExpandedKeys((prevKeys) => {
-      if (prevKeys.includes(key)) {
-        return prevKeys.filter((k) => k !== key)
-      }
-      return [...prevKeys, key]
-    })
-  }
 
   const normalizedSearch = searchQuery.trim().toLowerCase()
   const filteredWorkItems = workItems.filter((item) => {
@@ -128,19 +58,17 @@ const Home = () => {
       />
 
       <div className='mx-auto flex w-full max-w-[1500px]'>
-        <aside className='hidden w-60 shrink-0 border-r border-[#E1E1E8] bg-white px-4 py-6 lg:block'>
-          <h2 className='mb-3 text-xs font-semibold uppercase tracking-wide text-[#616161]'>
-            Workstreams
-          </h2>
-          <Tree data={workspaceTree} expandedKeys={expandedKeys} onNodeSelect={handleNodeSelect} />
-        </aside>
+        <WorkspaceSidebar />
 
-        <main className='min-w-0 flex-1 p-4 sm:p-6 lg:p-8'>
+        <section className='min-w-0 flex-1 p-4 sm:p-6 lg:p-8' aria-labelledby='launch-title'>
           <header className='mb-6'>
             <p className='text-xs font-semibold uppercase tracking-[0.16em] text-[#5B5FC7]'>
               Van Arsdel launch workspace
             </p>
-            <h1 className='mt-2 text-2xl font-semibold tracking-tight text-[#242424] sm:text-3xl'>
+            <h1
+              id='launch-title'
+              className='mt-2 text-2xl font-semibold tracking-tight text-[#242424] sm:text-3xl'
+            >
               Launch work overview
             </h1>
             <p className='mt-2 max-w-2xl text-sm leading-6 text-[#616161]'>
@@ -202,19 +130,27 @@ const Home = () => {
                     className='grid gap-4 px-4 py-4 sm:grid-cols-[minmax(0,1fr)_120px_120px] sm:items-center sm:px-5'
                   >
                     <div className='min-w-0'>
-                      <h3 className='font-medium text-[#242424]'>{item.title}</h3>
-                      <p className='mt-1 text-sm text-[#616161]'>{item.workstream}</p>
+                      <h3>
+                        <Link
+                          to={`/van-ardsel/workstreams/${item.workstreamId}/tasks/${item.id}`}
+                          className='font-medium text-[#242424] hover:text-[#5B5FC7] hover:underline'
+                        >
+                          {item.title}
+                        </Link>
+                      </h3>
+                      <Link
+                        to={`/van-ardsel/workstreams/${item.workstreamId}`}
+                        className='mt-1 inline-block text-sm text-[#616161] hover:text-[#5B5FC7]'
+                      >
+                        {item.workstream}
+                      </Link>
                     </div>
                     <div>
                       <p className='text-[11px] uppercase tracking-wide text-[#8A8A8A]'>Owner</p>
                       <p className='mt-1 text-sm font-medium text-[#424242]'>{item.owner}</p>
                     </div>
                     <div className='sm:text-right'>
-                      <span
-                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${statusClasses[item.status]}`}
-                      >
-                        {statusLabels[item.status]}
-                      </span>
+                      <WorkStatusBadge status={item.status} />
                       <p className='mt-1.5 text-xs text-[#616161]'>{getDueLabel(item)}</p>
                     </div>
                   </article>
@@ -222,7 +158,7 @@ const Home = () => {
               </div>
             )}
           </section>
-        </main>
+        </section>
       </div>
     </div>
   )

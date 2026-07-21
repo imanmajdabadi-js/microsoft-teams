@@ -1,8 +1,13 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import Home from '.'
 
 test('filters at-risk work and searches by owner', () => {
-  render(<Home />)
+  render(
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>,
+  )
 
   expect(screen.getByText('8 of 8 work items')).toBeInTheDocument()
 
