@@ -1,7 +1,8 @@
 import { Link, useParams } from 'react-router-dom'
 import WorkspaceSidebar from '../../components/workspaceSidebar'
 import WorkStatusBadge from '../../components/workStatusBadge'
-import { WorkPriority, getDueLabel, workItems, workstreams } from '../../data/workspaceData'
+import { useWorkspace } from '../../context/workspaceContext'
+import { WorkPriority, WorkStatus, getDueLabel, workstreams } from '../../data/workspaceData'
 
 const priorityLabels: Record<WorkPriority, string> = {
   high: 'High',
@@ -9,12 +10,27 @@ const priorityLabels: Record<WorkPriority, string> = {
   low: 'Low',
 }
 
+const statusOptions: Array<{ label: string; value: WorkStatus }> = [
+  { label: 'In progress', value: 'in-progress' },
+  { label: 'At risk', value: 'at-risk' },
+  { label: 'Completed', value: 'completed' },
+]
+
 const TaskDetails = () => {
+  const { updateWorkItemStatus, workItems } = useWorkspace()
   const { taskId, workstreamId } = useParams()
   const workstream = workstreams.find((item) => item.id === workstreamId)
   const task = workItems.find(
     (item) => item.id === taskId && item.workstreamId === workstreamId,
   )
+
+  const handleStatusChange = (value: string) => {
+    const selectedStatus = statusOptions.find((option) => option.value === value)
+
+    if (task && selectedStatus) {
+      updateWorkItemStatus(task.id, selectedStatus.value)
+    }
+  }
 
   if (!workstream || !task) {
     return (
@@ -58,11 +74,35 @@ const TaskDetails = () => {
 
           <article className='overflow-hidden rounded-xl border border-[#E1E1E8] bg-white shadow-sm'>
             <header className='border-b border-[#E1E1E8] px-5 py-5 sm:px-7 sm:py-6'>
-              <div className='flex flex-wrap items-center gap-3'>
-                <WorkStatusBadge status={task.status} />
-                <span className='text-xs font-medium uppercase tracking-wide text-[#616161]'>
-                  {priorityLabels[task.priority]} priority
-                </span>
+              <div className='flex flex-wrap items-start justify-between gap-4'>
+                <div className='flex flex-wrap items-center gap-3'>
+                  <WorkStatusBadge status={task.status} />
+                  <span className='text-xs font-medium uppercase tracking-wide text-[#616161]'>
+                    {priorityLabels[task.priority]} priority
+                  </span>
+                </div>
+                <div>
+                  <label htmlFor='task-status' className='block text-xs font-medium text-[#616161]'>
+                    Update status
+                  </label>
+                  <select
+                    id='task-status'
+                    value={task.status}
+                    onChange={(event) => handleStatusChange(event.target.value)}
+                    className={`
+                      mt-1 h-10 rounded-lg border border-[#D1D1D8] bg-white px-3
+                      text-sm text-[#242424] outline-none focus:border-[#5B5FC7]
+                      focus:ring-2 focus:ring-[#E3E3F7]
+                    `}
+                  >
+                    {statusOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p className='mt-1 text-xs text-[#8A8A8A]'>Saved on this device</p>
+                </div>
               </div>
               <h1
                 id='task-title'
@@ -91,10 +131,26 @@ const TaskDetails = () => {
             <section className='border-t border-[#E1E1E8] px-5 py-6 sm:px-7'>
               <h2 className='font-semibold text-[#242424]'>Blocker</h2>
               {task.blocker ? (
-                <div className='mt-3 rounded-lg border border-[#F3C6C9] bg-[#FFF4F4] p-4'>
-                  <p className='text-sm leading-6 text-[#7A1F25]'>{task.blocker}</p>
-                  <p className='mt-2 text-xs font-medium uppercase tracking-wide text-[#A4262C]'>
-                    Decision needed
+                <div
+                  className={`mt-3 rounded-lg border p-4 ${
+                    task.status === 'completed'
+                      ? 'border-[#B7D7C3] bg-[#F2FAF5]'
+                      : 'border-[#F3C6C9] bg-[#FFF4F4]'
+                  }`}
+                >
+                  <p
+                    className={`text-sm leading-6 ${
+                      task.status === 'completed' ? 'text-[#0E5A2B]' : 'text-[#7A1F25]'
+                    }`}
+                  >
+                    {task.blocker}
+                  </p>
+                  <p
+                    className={`mt-2 text-xs font-medium uppercase tracking-wide ${
+                      task.status === 'completed' ? 'text-[#107C41]' : 'text-[#A4262C]'
+                    }`}
+                  >
+                    {task.status === 'completed' ? 'Closed with task' : 'Decision needed'}
                   </p>
                 </div>
               ) : (

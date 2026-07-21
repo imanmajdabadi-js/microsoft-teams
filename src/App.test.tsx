@@ -1,6 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, useLocation } from 'react-router-dom'
 import App from './App'
+import { WORK_STATUS_STORAGE_KEY } from './pages/vanArdsel/context/workspaceContext'
 
 jest.mock('@/hooks/useDevice', () => ({
   __esModule: true,
@@ -18,6 +19,10 @@ const CurrentPath = () => {
 
   return <span data-testid='current-path'>{pathname}</span>
 }
+
+beforeEach(() => {
+  window.localStorage.clear()
+})
 
 test('redirects the root route to Van Arsdel home', async () => {
   render(
@@ -63,4 +68,39 @@ test('shows a recovery action for an invalid nested task route', () => {
     'href',
     '/van-ardsel/home',
   )
+})
+
+test('persists a task status update on the device', async () => {
+  const taskPath = '/van-ardsel/workstreams/spring-campaign/tasks/review-campaign-numbers'
+  const firstRender = render(
+    <MemoryRouter initialEntries={[taskPath]}>
+      <App />
+    </MemoryRouter>,
+  )
+
+  fireEvent.change(screen.getByRole('combobox', { name: 'Update status' }), {
+    target: { value: 'completed' },
+  })
+
+  await waitFor(() => {
+    const savedStatuses = JSON.parse(
+      window.localStorage.getItem(WORK_STATUS_STORAGE_KEY) ?? '[]',
+    )
+
+    expect(savedStatuses).toContainEqual({
+      id: 'review-campaign-numbers',
+      status: 'completed',
+    })
+  })
+
+  firstRender.unmount()
+
+  render(
+    <MemoryRouter initialEntries={[taskPath]}>
+      <App />
+    </MemoryRouter>,
+  )
+
+  expect(screen.getByRole('combobox', { name: 'Update status' })).toHaveValue('completed')
+  expect(screen.getByText('Closed with task')).toBeInTheDocument()
 })

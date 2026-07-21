@@ -2,7 +2,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import Card from '@/components/card'
 import WorkspaceSidebar from '../../components/workspaceSidebar'
 import WorkStatusBadge from '../../components/workStatusBadge'
-import { getDueLabel, workItems } from '../../data/workspaceData'
+import { useWorkspace } from '../../context/workspaceContext'
+import { getDueLabel } from '../../data/workspaceData'
 
 type AssignedFilter = 'all' | 'open' | 'at-risk' | 'completed'
 
@@ -14,6 +15,7 @@ const filterOptions: Array<{ label: string; value: AssignedFilter }> = [
 ]
 
 const AssignedToMe = () => {
+  const { workItems } = useWorkspace()
   const [searchParams, setSearchParams] = useSearchParams()
   const requestedFilter = searchParams.get('status')
   const activeFilter = filterOptions.some((option) => option.value === requestedFilter)

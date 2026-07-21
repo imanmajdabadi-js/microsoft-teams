@@ -1,6 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, useLocation } from 'react-router-dom'
 import AssignedToMe from '.'
+import { WorkspaceProvider } from '../../context/workspaceContext'
+
+beforeEach(() => {
+  window.localStorage.clear()
+})
 
 const CurrentSearch = () => {
   const { search } = useLocation()
@@ -11,8 +16,10 @@ const CurrentSearch = () => {
 test('filters assigned work and keeps the selected filter in the URL', () => {
   render(
     <MemoryRouter initialEntries={['/van-ardsel/assigned-to-me']}>
-      <AssignedToMe />
-      <CurrentSearch />
+      <WorkspaceProvider>
+        <AssignedToMe />
+        <CurrentSearch />
+      </WorkspaceProvider>
     </MemoryRouter>,
   )
 

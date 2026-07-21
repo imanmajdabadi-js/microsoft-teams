@@ -4,11 +4,11 @@ import Filter from './components/filter'
 import Card from '@/components/card'
 import WorkStatusBadge from '../../components/workStatusBadge'
 import WorkspaceSidebar from '../../components/workspaceSidebar'
+import { useWorkspace } from '../../context/workspaceContext'
 import {
   WorkFilter,
   WorkItem,
   getDueLabel,
-  workItems,
 } from '../../data/workspaceData'
 
 const matchesFilter = (item: WorkItem, filter: WorkFilter) => {
@@ -28,6 +28,7 @@ const matchesFilter = (item: WorkItem, filter: WorkFilter) => {
 }
 
 const Home = () => {
+  const { workItems } = useWorkspace()
   const [activeFilter, setActiveFilter] = useState<WorkFilter>('all')
   const [searchQuery, setSearchQuery] = useState('')
 

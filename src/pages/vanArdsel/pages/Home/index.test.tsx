@@ -1,11 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Home from '.'
+import { WorkspaceProvider } from '../../context/workspaceContext'
+
+beforeEach(() => {
+  window.localStorage.clear()
+})
 
 test('filters at-risk work and searches by owner', () => {
   render(
     <MemoryRouter>
-      <Home />
+      <WorkspaceProvider>
+        <Home />
+      </WorkspaceProvider>
     </MemoryRouter>,
   )
 

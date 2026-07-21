@@ -2,9 +2,11 @@ import { Link, useParams } from 'react-router-dom'
 import Card from '@/components/card'
 import WorkspaceSidebar from '../../components/workspaceSidebar'
 import WorkStatusBadge from '../../components/workStatusBadge'
-import { getDueLabel, workItems, workstreams } from '../../data/workspaceData'
+import { useWorkspace } from '../../context/workspaceContext'
+import { getDueLabel, workstreams } from '../../data/workspaceData'
 
 const WorkstreamPage = () => {
+  const { workItems } = useWorkspace()
   const { workstreamId } = useParams()
   const workstream = workstreams.find((item) => item.id === workstreamId)
 
