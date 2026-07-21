@@ -37,6 +37,34 @@ test('redirects the root route to Van Arsdel home', async () => {
   })
 })
 
+test('redirects the retired workspace chat route to the decision log', async () => {
+  render(
+    <MemoryRouter initialEntries={['/van-ardsel/chat']}>
+      <App />
+      <CurrentPath />
+    </MemoryRouter>,
+  )
+
+  await waitFor(() => {
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/van-ardsel/decisions')
+  })
+
+  expect(screen.getByRole('heading', { name: 'Decision log' })).toBeInTheDocument()
+})
+
+test('shows a recovery action instead of an unfinished shell page', () => {
+  render(
+    <MemoryRouter initialEntries={['/activity']}>
+      <App />
+    </MemoryRouter>,
+  )
+
+  expect(
+    screen.getByRole('heading', { name: 'This workspace page is unavailable' }),
+  ).toBeInTheDocument()
+  expect(screen.queryByRole('heading', { name: 'Activity' })).not.toBeInTheDocument()
+})
+
 test('renders a task through the nested workstream route', () => {
   render(
     <MemoryRouter

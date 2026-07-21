@@ -1,12 +1,13 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout'
 import Home from './pages/Home'
 import AssignedToMe from './pages/assignedToMe'
 import Timeline from './pages/TimeLine'
-import Chat from './pages/Chat'
+import Decisions from './pages/Decisions'
 import WorkstreamPage from './pages/workstreams'
 import TaskDetails from './pages/workstreams/taskDetails'
 import { WorkspaceProvider } from './context/workspaceContext'
+import NotFoundPage from '../notFound'
 
 const VanArdselPage = () => {
   return (
@@ -17,11 +18,13 @@ const VanArdselPage = () => {
           <Route path='home' element={<Home />} />
           <Route path='assigned-to-me' element={<AssignedToMe />} />
           <Route path='timeline' element={<Timeline />} />
-          <Route path='chat' element={<Chat />} />
+          <Route path='decisions' element={<Decisions />} />
+          <Route path='chat' element={<Navigate to='/van-ardsel/decisions' replace />} />
           <Route path='workstreams/:workstreamId'>
             <Route index element={<WorkstreamPage />} />
             <Route path='tasks/:taskId' element={<TaskDetails />} />
           </Route>
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </Layout>
     </WorkspaceProvider>

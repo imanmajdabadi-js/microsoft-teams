@@ -33,7 +33,7 @@ const WorkstreamPage = () => {
     : 0
 
   return (
-    <div className='min-h-full bg-[#F6F6F9] pb-28 lg:pb-8'>
+    <div className='min-h-full bg-[#F6F6F9] pb-8'>
       <div className='mx-auto flex w-full max-w-[1500px]'>
         <WorkspaceSidebar />
 

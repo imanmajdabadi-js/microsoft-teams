@@ -48,7 +48,7 @@ const Home = () => {
   const completionRate = Math.round((completedCount / workItems.length) * 100)
 
   return (
-    <div className='min-h-full bg-[#F6F6F9] pb-28 lg:pb-8'>
+    <div className='min-h-full bg-[#F6F6F9] pb-8'>
       <Filter
         activeFilter={activeFilter}
         searchQuery={searchQuery}

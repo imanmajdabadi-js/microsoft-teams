@@ -25,6 +25,15 @@ export interface WorkItem {
   blocker?: string
 }
 
+export interface LaunchDecision {
+  id: string
+  title: string
+  context: string
+  requestedFrom: string
+  taskId: string
+  outcome?: string
+}
+
 export const workstreams: Workstream[] = [
   {
     id: 'spring-campaign',
@@ -153,6 +162,31 @@ export const workItems: WorkItem[] = [
     dueInDays: 0,
     priority: 'medium',
     status: 'completed',
+  },
+]
+
+export const decisions: LaunchDecision[] = [
+  {
+    id: 'confirm-paid-media-total',
+    title: 'Which paid media total should be used in the launch report?',
+    context: 'The campaign report cannot be finalized until finance confirms the source total.',
+    requestedFrom: 'Finance',
+    taskId: 'review-campaign-numbers',
+  },
+  {
+    id: 'confirm-checkout-event-name',
+    title: 'Which checkout event name is final?',
+    context: 'The website and analytics dashboard need to use the same event name before release.',
+    requestedFrom: 'Analytics',
+    taskId: 'fix-checkout-analytics',
+  },
+  {
+    id: 'assign-support-escalations',
+    title: 'Who owns launch-week support escalations?',
+    context: 'The support playbook needs one clear owner for issues that cannot be resolved immediately.',
+    requestedFrom: 'Launch operations',
+    taskId: 'publish-support-playbook',
+    outcome: 'Sara owns the first response and routes unresolved issues to the product lead.',
   },
 ]
 
