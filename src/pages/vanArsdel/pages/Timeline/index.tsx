@@ -48,48 +48,48 @@ const Timeline = () => {
   ]
 
   return (
-    <div className='min-h-full bg-[#F6F6F9] pb-8'>
-      <div className='mx-auto flex w-full max-w-[1500px]'>
+    <div className='min-h-full bg-surface-canvas pb-8'>
+      <div className='mx-auto flex w-full max-w-workspace'>
         <WorkspaceSidebar />
 
         <section className='min-w-0 flex-1 p-4 sm:p-6 lg:p-8' aria-labelledby='timeline-title'>
           <header>
-            <p className='text-xs font-semibold uppercase tracking-[0.16em] text-[#5B5FC7]'>
+            <p className='text-xs font-semibold uppercase tracking-eyebrow text-brand'>
               Launch schedule
             </p>
             <h1
               id='timeline-title'
-              className='mt-2 text-2xl font-semibold tracking-tight text-[#242424] sm:text-3xl'
+              className='mt-2 text-2xl font-semibold tracking-tight text-ink-strong sm:text-3xl'
             >
               Launch timeline
             </h1>
-            <p className='mt-2 max-w-2xl text-sm leading-6 text-[#616161]'>
+            <p className='mt-2 max-w-2xl text-sm leading-6 text-ink-muted'>
               Review upcoming deadlines and follow work from the launch plan into task details.
             </p>
           </header>
 
           <section
-            className='mt-6 grid overflow-hidden rounded-xl border border-[#E1E1E8] bg-white sm:grid-cols-3'
+            className='mt-6 grid overflow-hidden rounded-xl border border-line bg-white sm:grid-cols-3'
             aria-label='Timeline summary'
           >
-            <div className='border-b border-[#E1E1E8] p-4 sm:border-b-0 sm:border-r sm:p-5'>
-              <p className='text-xs uppercase tracking-wide text-[#8A8A8A]'>Next deadline</p>
-              <p className='mt-2 text-xl font-semibold text-[#242424]'>
+            <div className='border-b border-line p-4 sm:border-b-0 sm:border-r sm:p-5'>
+              <p className='text-xs uppercase tracking-wide text-ink-subtle'>Next deadline</p>
+              <p className='mt-2 text-xl font-semibold text-ink-strong'>
                 {nextWorkItem ? getDueLabel(nextWorkItem) : 'No open work'}
               </p>
-              <p className='mt-1 truncate text-sm text-[#616161]'>
+              <p className='mt-1 truncate text-sm text-ink-muted'>
                 {nextWorkItem?.title ?? 'Everything is completed'}
               </p>
             </div>
-            <div className='border-b border-[#E1E1E8] p-4 sm:border-b-0 sm:border-r sm:p-5'>
-              <p className='text-xs uppercase tracking-wide text-[#8A8A8A]'>Due this week</p>
-              <p className='mt-2 text-xl font-semibold text-[#242424]'>{dueThisWeekCount}</p>
-              <p className='mt-1 text-sm text-[#616161]'>Open tasks inside the seven-day window</p>
+            <div className='border-b border-line p-4 sm:border-b-0 sm:border-r sm:p-5'>
+              <p className='text-xs uppercase tracking-wide text-ink-subtle'>Due this week</p>
+              <p className='mt-2 text-xl font-semibold text-ink-strong'>{dueThisWeekCount}</p>
+              <p className='mt-1 text-sm text-ink-muted'>Open tasks inside the seven-day window</p>
             </div>
             <div className='p-4 sm:p-5'>
-              <p className='text-xs uppercase tracking-wide text-[#8A8A8A]'>Active risks</p>
-              <p className='mt-2 text-xl font-semibold text-[#242424]'>{atRiskCount}</p>
-              <p className='mt-1 text-sm text-[#616161]'>Items that still need a decision</p>
+              <p className='text-xs uppercase tracking-wide text-ink-subtle'>Active risks</p>
+              <p className='mt-2 text-xl font-semibold text-ink-strong'>{atRiskCount}</p>
+              <p className='mt-1 text-sm text-ink-muted'>Items that still need a decision</p>
             </div>
           </section>
 
@@ -97,38 +97,38 @@ const Timeline = () => {
             {timelineGroups.map((group) => (
               <section
                 key={group.id}
-                className='overflow-hidden rounded-xl border border-[#E1E1E8] bg-white shadow-sm'
+                className='overflow-hidden rounded-xl border border-line bg-white shadow-sm'
                 aria-labelledby={`${group.id}-title`}
               >
-                <div className='flex items-start justify-between gap-4 border-b border-[#E1E1E8] px-4 py-4 sm:px-5'>
+                <div className='flex items-start justify-between gap-4 border-b border-line px-4 py-4 sm:px-5'>
                   <div>
-                    <h2 id={`${group.id}-title`} className='font-semibold text-[#242424]'>
+                    <h2 id={`${group.id}-title`} className='font-semibold text-ink-strong'>
                       {group.title}
                     </h2>
-                    <p className='mt-1 text-sm text-[#616161]'>{group.description}</p>
+                    <p className='mt-1 text-sm text-ink-muted'>{group.description}</p>
                   </div>
-                  <span className='rounded-full bg-[#F0F0F5] px-2.5 py-1 text-xs font-medium text-[#424242]'>
+                  <span className='rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-ink'>
                     {group.items.length}
                   </span>
                 </div>
 
                 {group.items.length === 0 ? (
-                  <p className='px-5 py-8 text-sm text-[#616161]' role='status'>
+                  <p className='px-5 py-8 text-sm text-ink-muted' role='status'>
                     No work is scheduled in this window.
                   </p>
                 ) : (
-                  <div className='divide-y divide-[#ECECF1]'>
+                  <div className='divide-y divide-line-subtle'>
                     {group.items.map((item) => (
                       <article
                         key={item.id}
                         className={`
-                          grid gap-4 px-4 py-4 sm:grid-cols-[100px_minmax(0,1fr)_120px]
+                          grid gap-4 px-4 py-4 sm:grid-cols-timeline-row
                           sm:items-center sm:px-5
                         `}
                       >
                         <div>
-                          <p className='text-[11px] uppercase tracking-wide text-[#8A8A8A]'>Timing</p>
-                          <p className='mt-1 text-sm font-medium text-[#424242]'>
+                          <p className='text-caption uppercase tracking-wide text-ink-subtle'>Timing</p>
+                          <p className='mt-1 text-sm font-medium text-ink'>
                             {getDueLabel(item)}
                           </p>
                         </div>
@@ -136,12 +136,12 @@ const Timeline = () => {
                           <h3>
                             <Link
                               to={`/van-arsdel/workstreams/${item.workstreamId}/tasks/${item.id}`}
-                              className='font-medium text-[#242424] hover:text-[#5B5FC7] hover:underline'
+                              className='font-medium text-ink-strong hover:text-brand hover:underline'
                             >
                               {item.title}
                             </Link>
                           </h3>
-                          <p className='mt-1 text-sm text-[#616161]'>
+                          <p className='mt-1 text-sm text-ink-muted'>
                             {item.workstream} · {item.owner}
                           </p>
                         </div>

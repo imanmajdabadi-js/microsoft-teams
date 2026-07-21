@@ -4,16 +4,16 @@
 
 @layer base {
   html {
-    background: #f6f6f9;
+    background: theme('colors.surface.canvas');
   }
 
   body {
     min-width: 320px;
-    color: #242424;
+    color: theme('colors.ink.strong');
   }
 
   :focus-visible {
-    outline: 2px solid #5b5fc7;
+    outline: 2px solid theme('colors.brand.DEFAULT');
     outline-offset: 2px;
   }
 }

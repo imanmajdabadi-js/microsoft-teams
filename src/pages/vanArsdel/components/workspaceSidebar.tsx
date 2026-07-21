@@ -41,8 +41,8 @@ const WorkspaceSidebar = () => {
   }
 
   return (
-    <aside className='hidden w-60 shrink-0 border-r border-[#E1E1E8] bg-white px-4 py-6 lg:block'>
-      <h2 className='mb-3 text-xs font-semibold uppercase tracking-wide text-[#616161]'>
+    <aside className='hidden w-60 shrink-0 border-r border-line bg-white px-4 py-6 lg:block'>
+      <h2 className='mb-3 text-xs font-semibold uppercase tracking-wide text-ink-muted'>
         Workstreams
       </h2>
       <Tree data={workspaceTree} expandedKeys={expandedKeys} onNodeSelect={handleNodeSelect} />

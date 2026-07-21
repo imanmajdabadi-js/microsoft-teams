@@ -57,22 +57,22 @@ const AssignedToMe = () => {
   }
 
   return (
-    <div className='min-h-full bg-[#F6F6F9] pb-8'>
-      <div className='mx-auto flex w-full max-w-[1500px]'>
+    <div className='min-h-full bg-surface-canvas pb-8'>
+      <div className='mx-auto flex w-full max-w-workspace'>
         <WorkspaceSidebar />
 
         <section className='min-w-0 flex-1 p-4 sm:p-6 lg:p-8' aria-labelledby='assigned-title'>
           <header className='mb-6'>
-            <p className='text-xs font-semibold uppercase tracking-[0.16em] text-[#5B5FC7]'>
+            <p className='text-xs font-semibold uppercase tracking-eyebrow text-brand'>
               Personal work queue
             </p>
             <h1
               id='assigned-title'
-              className='mt-2 text-2xl font-semibold tracking-tight text-[#242424] sm:text-3xl'
+              className='mt-2 text-2xl font-semibold tracking-tight text-ink-strong sm:text-3xl'
             >
               Assigned to me
             </h1>
-            <p className='mt-2 max-w-2xl text-sm leading-6 text-[#616161]'>
+            <p className='mt-2 max-w-2xl text-sm leading-6 text-ink-muted'>
               Review the launch work you own and focus on the next risk.
             </p>
           </header>
@@ -99,20 +99,20 @@ const AssignedToMe = () => {
           </section>
 
           {focusItem && (
-            <section className='mt-6 rounded-xl border border-[#F3C6C9] bg-[#FFF8F8] p-5'>
-              <p className='text-xs font-semibold uppercase tracking-wide text-[#A4262C]'>
+            <section className='mt-6 rounded-xl border border-danger-300 bg-danger-50 p-5'>
+              <p className='text-xs font-semibold uppercase tracking-wide text-danger-700'>
                 Next attention item
               </p>
               <div className='mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between'>
                 <div>
-                  <h2 className='font-semibold text-[#242424]'>{focusItem.title}</h2>
-                  <p className='mt-1 text-sm text-[#616161]'>{focusItem.blocker}</p>
+                  <h2 className='font-semibold text-ink-strong'>{focusItem.title}</h2>
+                  <p className='mt-1 text-sm text-ink-muted'>{focusItem.blocker}</p>
                 </div>
                 <Link
                   to={`/van-arsdel/workstreams/${focusItem.workstreamId}/tasks/${focusItem.id}`}
                   className={`
-                    inline-flex shrink-0 justify-center rounded-lg bg-[#5B5FC7] px-4 py-2
-                    text-sm font-medium text-white hover:bg-[#4F52B2]
+                    inline-flex shrink-0 justify-center rounded-lg bg-brand px-4 py-2
+                    text-sm font-medium text-white hover:bg-brand-hover
                   `}
                 >
                   Review task
@@ -121,8 +121,8 @@ const AssignedToMe = () => {
             </section>
           )}
 
-          <section className='mt-6 overflow-hidden rounded-xl border border-[#E1E1E8] bg-white shadow-sm'>
-            <div className='border-b border-[#E1E1E8] px-4 py-4 sm:px-5'>
+          <section className='mt-6 overflow-hidden rounded-xl border border-line bg-white shadow-sm'>
+            <div className='border-b border-line px-4 py-4 sm:px-5'>
               <div
                 className='flex gap-2 overflow-x-auto pb-1'
                 role='group'
@@ -141,8 +141,8 @@ const AssignedToMe = () => {
                         whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium
                         transition-colors ${
                         isActive
-                          ? 'border-[#5B5FC7] bg-[#5B5FC7] text-white'
-                          : 'border-[#D1D1D8] text-[#424242] hover:border-[#5B5FC7]'
+                          ? 'border-brand bg-brand text-white'
+                          : 'border-line-input text-ink hover:border-brand'
                       }`}
                     >
                       {option.label}
@@ -150,43 +150,43 @@ const AssignedToMe = () => {
                   )
                 })}
               </div>
-              <p className='mt-3 text-xs text-[#616161]' aria-live='polite'>
+              <p className='mt-3 text-xs text-ink-muted' aria-live='polite'>
                 {visibleWorkItems.length} of {assignedWorkItems.length} assigned tasks
               </p>
             </div>
 
             {visibleWorkItems.length === 0 ? (
               <div className='px-5 py-12 text-center' role='status'>
-                <p className='font-medium text-[#242424]'>No tasks match this filter</p>
-                <p className='mt-1 text-sm text-[#616161]'>Choose another status to review your work.</p>
+                <p className='font-medium text-ink-strong'>No tasks match this filter</p>
+                <p className='mt-1 text-sm text-ink-muted'>Choose another status to review your work.</p>
               </div>
             ) : (
-              <div className='divide-y divide-[#ECECF1]'>
+              <div className='divide-y divide-line-subtle'>
                 {visibleWorkItems.map((item) => (
                   <article
                     key={item.id}
-                    className='grid gap-4 px-4 py-4 sm:grid-cols-[minmax(0,1fr)_120px_120px] sm:items-center sm:px-5'
+                    className='grid gap-4 px-4 py-4 sm:grid-cols-work-row sm:items-center sm:px-5'
                   >
                     <div className='min-w-0'>
                       <h2>
                         <Link
                           to={`/van-arsdel/workstreams/${item.workstreamId}/tasks/${item.id}`}
-                          className='font-medium text-[#242424] hover:text-[#5B5FC7] hover:underline'
+                          className='font-medium text-ink-strong hover:text-brand hover:underline'
                         >
                           {item.title}
                         </Link>
                       </h2>
-                      <p className='mt-1 text-sm text-[#616161]'>{item.workstream}</p>
+                      <p className='mt-1 text-sm text-ink-muted'>{item.workstream}</p>
                     </div>
                     <div>
-                      <p className='text-[11px] uppercase tracking-wide text-[#8A8A8A]'>Priority</p>
-                      <p className='mt-1 text-sm font-medium capitalize text-[#424242]'>
+                      <p className='text-caption uppercase tracking-wide text-ink-subtle'>Priority</p>
+                      <p className='mt-1 text-sm font-medium capitalize text-ink'>
                         {item.priority}
                       </p>
                     </div>
                     <div className='sm:text-right'>
                       <WorkStatusBadge status={item.status} />
-                      <p className='mt-1.5 text-xs text-[#616161]'>{getDueLabel(item)}</p>
+                      <p className='mt-1.5 text-xs text-ink-muted'>{getDueLabel(item)}</p>
                     </div>
                   </article>
                 ))}

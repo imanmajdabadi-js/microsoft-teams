@@ -12,12 +12,12 @@ const WorkstreamPage = () => {
 
   if (!workstream) {
     return (
-      <section className='min-h-[60vh] bg-[#F6F6F9] px-4 py-16 text-center'>
-        <h1 className='text-2xl font-semibold text-[#242424]'>Workstream not found</h1>
-        <p className='mt-2 text-sm text-[#616161]'>This workstream is not part of the launch plan.</p>
+      <section className='min-h-empty bg-surface-canvas px-4 py-16 text-center'>
+        <h1 className='text-2xl font-semibold text-ink-strong'>Workstream not found</h1>
+        <p className='mt-2 text-sm text-ink-muted'>This workstream is not part of the launch plan.</p>
         <Link
           to='/van-arsdel/home'
-          className='mt-5 inline-flex rounded-lg bg-[#5B5FC7] px-4 py-2 text-sm font-medium text-white'
+          className='mt-5 inline-flex rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white'
         >
           Back to launch overview
         </Link>
@@ -33,16 +33,16 @@ const WorkstreamPage = () => {
     : 0
 
   return (
-    <div className='min-h-full bg-[#F6F6F9] pb-8'>
-      <div className='mx-auto flex w-full max-w-[1500px]'>
+    <div className='min-h-full bg-surface-canvas pb-8'>
+      <div className='mx-auto flex w-full max-w-workspace'>
         <WorkspaceSidebar />
 
         <section
           className='min-w-0 flex-1 p-4 sm:p-6 lg:p-8'
           aria-labelledby='workstream-title'
         >
-          <nav className='mb-5 text-sm text-[#616161]' aria-label='Breadcrumb'>
-            <Link to='/van-arsdel/home' className='hover:text-[#5B5FC7] hover:underline'>
+          <nav className='mb-5 text-sm text-ink-muted' aria-label='Breadcrumb'>
+            <Link to='/van-arsdel/home' className='hover:text-brand hover:underline'>
               Launch overview
             </Link>
             <span className='mx-2' aria-hidden='true'>
@@ -52,19 +52,19 @@ const WorkstreamPage = () => {
           </nav>
 
           <header className='mb-6'>
-            <p className='text-xs font-semibold uppercase tracking-[0.16em] text-[#5B5FC7]'>
+            <p className='text-xs font-semibold uppercase tracking-eyebrow text-brand'>
               {workstream.group}
             </p>
             <h1
               id='workstream-title'
-              className='mt-2 text-2xl font-semibold tracking-tight text-[#242424] sm:text-3xl'
+              className='mt-2 text-2xl font-semibold tracking-tight text-ink-strong sm:text-3xl'
             >
               {workstream.title}
             </h1>
-            <p className='mt-2 max-w-2xl text-sm leading-6 text-[#616161]'>
+            <p className='mt-2 max-w-2xl text-sm leading-6 text-ink-muted'>
               {workstream.description}
             </p>
-            <p className='mt-3 text-sm text-[#424242]'>
+            <p className='mt-3 text-sm text-ink'>
               Workstream lead: <span className='font-medium'>{workstream.lead}</span>
             </p>
           </header>
@@ -91,46 +91,46 @@ const WorkstreamPage = () => {
             />
           </section>
 
-          <section className='mt-6 overflow-hidden rounded-xl border border-[#E1E1E8] bg-white shadow-sm'>
-            <div className='border-b border-[#E1E1E8] px-4 py-4 sm:px-5'>
-              <h2 className='font-semibold text-[#242424]'>Workstream tasks</h2>
-              <p className='mt-1 text-sm text-[#616161]'>
+          <section className='mt-6 overflow-hidden rounded-xl border border-line bg-white shadow-sm'>
+            <div className='border-b border-line px-4 py-4 sm:px-5'>
+              <h2 className='font-semibold text-ink-strong'>Workstream tasks</h2>
+              <p className='mt-1 text-sm text-ink-muted'>
                 Open a task to review its owner, timing, and blockers.
               </p>
             </div>
 
             {workstreamItems.length === 0 ? (
               <div className='px-5 py-12 text-center' role='status'>
-                <p className='font-medium text-[#242424]'>No tasks in this workstream</p>
-                <p className='mt-1 text-sm text-[#616161]'>
+                <p className='font-medium text-ink-strong'>No tasks in this workstream</p>
+                <p className='mt-1 text-sm text-ink-muted'>
                   Tasks will appear here when they are added.
                 </p>
               </div>
             ) : (
-              <div className='divide-y divide-[#ECECF1]'>
+              <div className='divide-y divide-line-subtle'>
                 {workstreamItems.map((item) => (
                   <article
                     key={item.id}
-                    className='grid gap-4 px-4 py-4 sm:grid-cols-[minmax(0,1fr)_120px_120px] sm:items-center sm:px-5'
+                    className='grid gap-4 px-4 py-4 sm:grid-cols-work-row sm:items-center sm:px-5'
                   >
                     <div className='min-w-0'>
                       <h3>
                         <Link
                           to={`tasks/${item.id}`}
-                          className='font-medium text-[#242424] hover:text-[#5B5FC7] hover:underline'
+                          className='font-medium text-ink-strong hover:text-brand hover:underline'
                         >
                           {item.title}
                         </Link>
                       </h3>
-                      <p className='mt-1 text-sm text-[#616161]'>{item.description}</p>
+                      <p className='mt-1 text-sm text-ink-muted'>{item.description}</p>
                     </div>
                     <div>
-                      <p className='text-[11px] uppercase tracking-wide text-[#8A8A8A]'>Owner</p>
-                      <p className='mt-1 text-sm font-medium text-[#424242]'>{item.owner}</p>
+                      <p className='text-caption uppercase tracking-wide text-ink-subtle'>Owner</p>
+                      <p className='mt-1 text-sm font-medium text-ink'>{item.owner}</p>
                     </div>
                     <div className='sm:text-right'>
                       <WorkStatusBadge status={item.status} />
-                      <p className='mt-1.5 text-xs text-[#616161]'>{getDueLabel(item)}</p>
+                      <p className='mt-1.5 text-xs text-ink-muted'>{getDueLabel(item)}</p>
                     </div>
                   </article>
                 ))}

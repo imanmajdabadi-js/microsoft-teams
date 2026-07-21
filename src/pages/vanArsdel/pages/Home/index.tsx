@@ -48,7 +48,7 @@ const Home = () => {
   const completionRate = Math.round((completedCount / workItems.length) * 100)
 
   return (
-    <div className='min-h-full bg-[#F6F6F9] pb-8'>
+    <div className='min-h-full bg-surface-canvas pb-8'>
       <Filter
         activeFilter={activeFilter}
         searchQuery={searchQuery}
@@ -58,21 +58,21 @@ const Home = () => {
         onSearchChange={setSearchQuery}
       />
 
-      <div className='mx-auto flex w-full max-w-[1500px]'>
+      <div className='mx-auto flex w-full max-w-workspace'>
         <WorkspaceSidebar />
 
         <section className='min-w-0 flex-1 p-4 sm:p-6 lg:p-8' aria-labelledby='launch-title'>
           <header className='mb-6'>
-            <p className='text-xs font-semibold uppercase tracking-[0.16em] text-[#5B5FC7]'>
+            <p className='text-xs font-semibold uppercase tracking-eyebrow text-brand'>
               Van Arsdel launch workspace
             </p>
             <h1
               id='launch-title'
-              className='mt-2 text-2xl font-semibold tracking-tight text-[#242424] sm:text-3xl'
+              className='mt-2 text-2xl font-semibold tracking-tight text-ink-strong sm:text-3xl'
             >
               Launch work overview
             </h1>
-            <p className='mt-2 max-w-2xl text-sm leading-6 text-[#616161]'>
+            <p className='mt-2 max-w-2xl text-sm leading-6 text-ink-muted'>
               Track the team&apos;s priority work, upcoming deadlines, and items that need attention.
             </p>
           </header>
@@ -108,51 +108,51 @@ const Home = () => {
             />
           </section>
 
-          <section className='mt-6 overflow-hidden rounded-xl border border-[#E1E1E8] bg-white shadow-sm'>
-            <div className='border-b border-[#E1E1E8] px-4 py-4 sm:px-5'>
-              <h2 className='text-base font-semibold text-[#242424]'>Priority work</h2>
-              <p className='mt-1 text-sm text-[#616161]'>
+          <section className='mt-6 overflow-hidden rounded-xl border border-line bg-white shadow-sm'>
+            <div className='border-b border-line px-4 py-4 sm:px-5'>
+              <h2 className='text-base font-semibold text-ink-strong'>Priority work</h2>
+              <p className='mt-1 text-sm text-ink-muted'>
                 The current items shared across launch workstreams.
               </p>
             </div>
 
             {filteredWorkItems.length === 0 ? (
               <div className='px-5 py-12 text-center' role='status'>
-                <p className='font-medium text-[#242424]'>No work items found</p>
-                <p className='mt-1 text-sm text-[#616161]'>
+                <p className='font-medium text-ink-strong'>No work items found</p>
+                <p className='mt-1 text-sm text-ink-muted'>
                   Try another filter or clear the search field.
                 </p>
               </div>
             ) : (
-              <div className='divide-y divide-[#ECECF1]'>
+              <div className='divide-y divide-line-subtle'>
                 {filteredWorkItems.map((item) => (
                   <article
                     key={item.id}
-                    className='grid gap-4 px-4 py-4 sm:grid-cols-[minmax(0,1fr)_120px_120px] sm:items-center sm:px-5'
+                    className='grid gap-4 px-4 py-4 sm:grid-cols-work-row sm:items-center sm:px-5'
                   >
                     <div className='min-w-0'>
                       <h3>
                         <Link
                           to={`/van-arsdel/workstreams/${item.workstreamId}/tasks/${item.id}`}
-                          className='font-medium text-[#242424] hover:text-[#5B5FC7] hover:underline'
+                          className='font-medium text-ink-strong hover:text-brand hover:underline'
                         >
                           {item.title}
                         </Link>
                       </h3>
                       <Link
                         to={`/van-arsdel/workstreams/${item.workstreamId}`}
-                        className='mt-1 inline-block text-sm text-[#616161] hover:text-[#5B5FC7]'
+                        className='mt-1 inline-block text-sm text-ink-muted hover:text-brand'
                       >
                         {item.workstream}
                       </Link>
                     </div>
                     <div>
-                      <p className='text-[11px] uppercase tracking-wide text-[#8A8A8A]'>Owner</p>
-                      <p className='mt-1 text-sm font-medium text-[#424242]'>{item.owner}</p>
+                      <p className='text-caption uppercase tracking-wide text-ink-subtle'>Owner</p>
+                      <p className='mt-1 text-sm font-medium text-ink'>{item.owner}</p>
                     </div>
                     <div className='sm:text-right'>
                       <WorkStatusBadge status={item.status} />
-                      <p className='mt-1.5 text-xs text-[#616161]'>{getDueLabel(item)}</p>
+                      <p className='mt-1.5 text-xs text-ink-muted'>{getDueLabel(item)}</p>
                     </div>
                   </article>
                 ))}

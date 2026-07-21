@@ -17,7 +17,7 @@ const DesktopLayout: FC<PropsWithChildren> = ({ children }) => {
         <div className='flex items-center gap-x-4'>
           <div className='flex h-10 gap-x-2'>
             <IconElement icon={VanIConBlack} />
-            <p className='text-[#242424] text-lg font-bold'>Van Arsdel</p>
+            <p className='text-lg font-bold text-ink-strong'>Van Arsdel</p>
           </div>
 
           <nav className='flex gap-x-4'>
@@ -28,8 +28,8 @@ const DesktopLayout: FC<PropsWithChildren> = ({ children }) => {
                 className={({ isActive }) =>
                   `relative block border-b-2 px-1 py-2 text-sm ${
                     isActive
-                      ? 'border-[#5B5FC7] font-semibold text-[#242424]'
-                      : 'border-transparent text-[#424242] hover:text-[#242424]'
+                      ? 'border-brand font-semibold text-ink-strong'
+                      : 'border-transparent text-ink hover:text-ink-strong'
                   }`
                 }
               >

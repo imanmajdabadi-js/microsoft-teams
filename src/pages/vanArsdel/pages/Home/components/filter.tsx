@@ -28,8 +28,8 @@ const Filter: FC<FilterProps> = ({
   onSearchChange,
 }) => {
   return (
-    <section className='border-y border-[#E1E1E8] bg-white px-4 py-3 sm:px-6'>
-      <div className='mx-auto flex max-w-[1500px] flex-col gap-3 xl:flex-row xl:items-center xl:justify-between'>
+    <section className='border-y border-line bg-white px-4 py-3 sm:px-6'>
+      <div className='mx-auto flex max-w-workspace flex-col gap-3 xl:flex-row xl:items-center xl:justify-between'>
         <div
           className='flex gap-2 overflow-x-auto pb-1 xl:pb-0'
           aria-label='Filter work items'
@@ -46,8 +46,8 @@ const Filter: FC<FilterProps> = ({
                 onClick={() => onFilterChange(option.value)}
                 className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                   isActive
-                    ? 'border-[#5B5FC7] bg-[#5B5FC7] text-white'
-                    : 'border-[#D1D1D8] bg-white text-[#424242] hover:border-[#5B5FC7]'
+                    ? 'border-brand bg-brand text-white'
+                    : 'border-line-input bg-white text-ink hover:border-brand'
                 }`}
               >
                 {option.label}
@@ -57,7 +57,7 @@ const Filter: FC<FilterProps> = ({
         </div>
 
         <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3'>
-          <p className='text-xs text-[#616161]' aria-live='polite'>
+          <p className='text-xs text-ink-muted' aria-live='polite'>
             {resultCount} of {totalCount} work items
           </p>
           <div className='relative'>
@@ -65,7 +65,7 @@ const Filter: FC<FilterProps> = ({
               Search tasks or owners
             </label>
             <IconElement
-              className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#616161]'
+              className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted'
               icon={SearchIcon}
               aria-hidden='true'
             />
@@ -75,9 +75,9 @@ const Filter: FC<FilterProps> = ({
               value={searchQuery}
               onChange={(event) => onSearchChange(event.target.value)}
               className={`
-                h-10 w-full rounded-lg border border-[#D1D1D8] bg-white py-2 pl-9 pr-3
-                text-sm text-[#242424] outline-none transition focus:border-[#5B5FC7]
-                focus:ring-2 focus:ring-[#E3E3F7] sm:w-64
+                h-10 w-full rounded-lg border border-line-input bg-white py-2 pl-9 pr-3
+                text-sm text-ink-strong outline-none transition focus:border-brand
+                focus:ring-2 focus:ring-brand-soft sm:w-64
               `}
               placeholder='Search tasks or owners'
             />

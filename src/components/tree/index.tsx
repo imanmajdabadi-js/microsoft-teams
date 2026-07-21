@@ -24,7 +24,7 @@ const Tree: FC<TreeProps> = ({ expandedKeys = [], data, onNodeSelect }) => {
 
         return (
           <li key={node.key}>
-            <div className='flex min-h-8 items-center gap-1 rounded-md px-1 hover:bg-[#F2F2F7]'>
+            <div className='flex min-h-8 items-center gap-1 rounded-md px-1 hover:bg-surface-hover'>
               {hasChildren ? (
                 <Anchor
                   label={node.title}
@@ -38,17 +38,17 @@ const Tree: FC<TreeProps> = ({ expandedKeys = [], data, onNodeSelect }) => {
                 <NavLink
                   to={node.path}
                   className={({ isActive }) =>
-                    `flex-1 text-sm font-normal ${isActive ? 'text-[#5B5FC7]' : 'text-[#424242]'}`
+                    `flex-1 text-sm font-normal ${isActive ? 'text-brand' : 'text-ink'}`
                   }
                 >
                   {node.title}
                 </NavLink>
               ) : (
-                <span className='text-sm font-normal text-[#424242]'>{node.title}</span>
+                <span className='text-sm font-normal text-ink'>{node.title}</span>
               )}
             </div>
             {isExpanded && node.children && (
-              <div className='ml-4 border-l border-[#E1E1E8] pl-2'>
+              <div className='ml-4 border-l border-line pl-2'>
                 <Tree data={node.children} expandedKeys={expandedKeys} onNodeSelect={onNodeSelect} />
               </div>
             )}

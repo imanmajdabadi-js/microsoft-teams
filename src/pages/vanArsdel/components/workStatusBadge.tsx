@@ -12,9 +12,9 @@ const statusLabels: Record<WorkStatus, string> = {
 }
 
 const statusClasses: Record<WorkStatus, string> = {
-  'in-progress': 'bg-[#E8F1FB] text-[#185B8C]',
-  'at-risk': 'bg-[#FDE7E9] text-[#A4262C]',
-  completed: 'bg-[#E7F3EC] text-[#107C41]',
+  'in-progress': 'bg-info-100 text-info-700',
+  'at-risk': 'bg-danger-200 text-danger-700',
+  completed: 'bg-success-200 text-success-700',
 }
 
 const WorkStatusBadge: FC<WorkStatusBadgeProps> = ({ status }) => {

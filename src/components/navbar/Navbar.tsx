@@ -12,10 +12,10 @@ const Navbar: FC = () => {
       <NavLink
         to='/van-arsdel'
         className={({ isActive }) => `flex w-full flex-col items-center gap-2 border-l-2
-          px-1 py-3 ${isActive ? 'border-[#5B5FC7]' : 'border-transparent'}`}
+          px-1 py-3 ${isActive ? 'border-brand' : 'border-transparent'}`}
       >
         <IconElement icon={Van} />
-        <span className='text-center text-[10px] leading-4 text-[#242424]'>Van Arsdel</span>
+        <span className='text-center text-2xs text-ink-strong'>Van Arsdel</span>
       </NavLink>
     </aside>
   )

@@ -11,7 +11,7 @@ const Anchor = ({ expanded, label, onClick }: AnchorProps) => {
       onClick={onClick}
       aria-expanded={expanded}
       aria-label={`${expanded ? 'Collapse' : 'Expand'} ${label}`}
-      className='flex h-6 w-6 items-center justify-center rounded text-[#424242] hover:bg-[#ECECF3]'
+      className='flex h-6 w-6 items-center justify-center rounded text-ink hover:bg-line-muted'
     >
       <svg className='h-3.5 w-3.5' viewBox='0 0 16 16' fill='none' aria-hidden='true'>
         <path
