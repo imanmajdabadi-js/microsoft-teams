@@ -28,7 +28,11 @@ const DesktopLayout: FC<PropsWithChildren> = ({ children }) => {
                 key={path}
                 to={path}
                 className={({ isActive }) =>
-                  `block p-1 relative text-[#424242] ${isActive ? 'border-b-2 border-[#5B5FC7] rounded-sm text-lg font-bold 	' : ''}`
+                  `relative block border-b-2 px-1 py-2 text-sm ${
+                    isActive
+                      ? 'border-[#5B5FC7] font-semibold text-[#242424]'
+                      : 'border-transparent text-[#424242] hover:text-[#242424]'
+                  }`
                 }
               >
                 {name}

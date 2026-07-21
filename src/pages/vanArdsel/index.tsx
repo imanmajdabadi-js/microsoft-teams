@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/layout'
 import Home from './pages/Home'
-import AssignedToMe from './pages/assignToMe'
+import AssignedToMe from './pages/assignedToMe'
 import TimeLine from './pages/TimeLine'
 import Chat from './pages/Chat'
 import WorkstreamPage from './pages/workstreams'

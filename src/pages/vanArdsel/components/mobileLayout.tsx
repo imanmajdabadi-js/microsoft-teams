@@ -37,13 +37,17 @@ const MobileLayout: FC<PropsWithChildren> = ({ children }) => {
           <IconElement className='w-5 h-5 cursor-pointer' icon={More} />
         </div>
       </div>
-      <nav className='flex gap-x-4 w-full justify-between mx-4'>
+      <nav className='mx-4 flex w-full gap-5 overflow-x-auto'>
         {navLinks.map(({ name, path }) => (
           <NavLink
             key={path}
             to={path}
             className={({ isActive }) =>
-              `block p-1 relative text-[#424242] ${isActive ? 'border-b-2 border-[#5B5FC7] rounded-sm text-lg font-bold 	' : ''}`
+              `relative block whitespace-nowrap border-b-2 px-1 py-2 text-sm ${
+                isActive
+                  ? 'border-[#5B5FC7] font-semibold text-[#242424]'
+                  : 'border-transparent text-[#424242]'
+              }`
             }
           >
             {name}
