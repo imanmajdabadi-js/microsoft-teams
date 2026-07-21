@@ -1,8 +1,11 @@
-import { FC, } from 'react';
-import { IconElementProps } from './@types/icon-element-props-types';
+import { ElementType, SVGProps } from 'react'
 
-const IconElement: FC<IconElementProps> = ({ icon: IconComponent, variant = 'Outline', ...props }) => {
-  return <IconComponent variant={variant} {...props} />;
-};
+type IconElementProps = SVGProps<SVGSVGElement> & {
+  icon: ElementType
+}
 
-export default IconElement;
+const IconElement = ({ icon: IconComponent, ...props }: IconElementProps) => {
+  return <IconComponent {...props} />
+}
+
+export default IconElement

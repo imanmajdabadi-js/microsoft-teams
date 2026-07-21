@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import { ReactComponent as TeamsIcon } from '../../assests/icons/teams.svg'
-import { ReactComponent as Avator } from '../../assests/icons/Avatar.svg'
+import { ReactComponent as TeamsIcon } from '../../assets/icons/teams.svg'
 import IconElement from '../iconElement/IconElement'
 
 const Header: FC = () => {
@@ -18,7 +17,12 @@ const Header: FC = () => {
 
         <div className='flex items-center gap-2' aria-label='Current workspace member'>
           <span className='hidden text-xs text-[#424242] xl:inline'>Launch team</span>
-          <IconElement icon={Avator} className='h-8 w-8' />
+          <span
+            className='flex h-8 w-8 items-center justify-center rounded-full bg-[#5B5FC7] text-[11px] font-semibold text-white'
+            aria-hidden='true'
+          >
+            LT
+          </span>
         </div>
       </div>
     </header>

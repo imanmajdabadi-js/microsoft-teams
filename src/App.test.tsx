@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, useLocation } from 'react-router-dom'
 import App from './App'
-import { WORK_STATUS_STORAGE_KEY } from './pages/vanArdsel/context/workspaceContext'
+import { WORK_STATUS_STORAGE_KEY } from './pages/vanArsdel/context/workspaceContext'
 
 jest.mock('@/hooks/useDevice', () => ({
   __esModule: true,
@@ -33,11 +33,11 @@ test('redirects the root route to Van Arsdel home', async () => {
   )
 
   await waitFor(() => {
-    expect(screen.getByTestId('current-path')).toHaveTextContent('/van-ardsel/home')
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/van-arsdel/home')
   })
 })
 
-test('redirects the retired workspace chat route to the decision log', async () => {
+test('redirects the legacy workspace chat route to the corrected decision log', async () => {
   render(
     <MemoryRouter initialEntries={['/van-ardsel/chat']}>
       <App />
@@ -46,7 +46,7 @@ test('redirects the retired workspace chat route to the decision log', async () 
   )
 
   await waitFor(() => {
-    expect(screen.getByTestId('current-path')).toHaveTextContent('/van-ardsel/decisions')
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/van-arsdel/decisions')
   })
 
   expect(screen.getByRole('heading', { name: 'Decision log' })).toBeInTheDocument()
@@ -69,7 +69,7 @@ test('renders a task through the nested workstream route', () => {
   render(
     <MemoryRouter
       initialEntries={[
-        '/van-ardsel/workstreams/spring-campaign/tasks/review-campaign-numbers',
+        '/van-arsdel/workstreams/spring-campaign/tasks/review-campaign-numbers',
       ]}
     >
       <App />
@@ -85,7 +85,7 @@ test('renders a task through the nested workstream route', () => {
 test('shows a recovery action for an invalid nested task route', () => {
   render(
     <MemoryRouter
-      initialEntries={['/van-ardsel/workstreams/spring-campaign/tasks/missing-task']}
+      initialEntries={['/van-arsdel/workstreams/spring-campaign/tasks/missing-task']}
     >
       <App />
     </MemoryRouter>,
@@ -94,12 +94,12 @@ test('shows a recovery action for an invalid nested task route', () => {
   expect(screen.getByRole('heading', { name: 'Task not found' })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Back to launch overview' })).toHaveAttribute(
     'href',
-    '/van-ardsel/home',
+    '/van-arsdel/home',
   )
 })
 
 test('persists a task status update on the device', async () => {
-  const taskPath = '/van-ardsel/workstreams/spring-campaign/tasks/review-campaign-numbers'
+  const taskPath = '/van-arsdel/workstreams/spring-campaign/tasks/review-campaign-numbers'
   const firstRender = render(
     <MemoryRouter initialEntries={[taskPath]}>
       <App />

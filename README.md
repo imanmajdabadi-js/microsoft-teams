@@ -1,46 +1,117 @@
-# Getting Started with Create React App
+# Van Arsdel Launch Control
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive launch-control workspace for tracking workstreams, assigned tasks, deadlines, blockers, and team decisions.
 
-## Available Scripts
+The project keeps the visual familiarity of a Microsoft Teams-inspired shell, but it is intentionally focused on one product flow instead of pretending to recreate the full platform.
 
-In the project directory, you can run:
+> This is an independent portfolio project and is not affiliated with Microsoft.
 
-### `npm start`
+## Why this project exists
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Launch work often becomes difficult to follow when tasks, owners, deadlines, and decisions are spread across separate conversations. This workspace brings the most important launch information into one clear flow so a team member can answer:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- What needs attention now?
+- Which workstream owns the task?
+- What am I responsible for?
+- Which blocker still needs a decision?
+- What outcome was agreed on?
 
-### `npm test`
+## Main workflow
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Review launch progress and priority work on the overview.
+2. Filter or search tasks by status, owner, or workstream.
+3. Open a workstream and continue into nested task details.
+4. Update a task status and keep the change on the current device.
+5. Review personal work and upcoming deadlines.
+6. Record decision outcomes without automatically closing the linked task.
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Responsive overview for desktop and mobile
+- Search and status filters
+- Nested workstream and task routes
+- Personal `Assigned to me` queue with URL-backed filters
+- Timeline grouped by upcoming deadlines
+- Persistent task-status updates
+- Decision log linked to blocked tasks
+- Helpful empty, missing-route, and missing-task states
+- Compatibility redirect for the original misspelled workspace route
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tech stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React 18
+- TypeScript 4.9
+- React Router 6
+- Tailwind CSS 3
+- Create React App with CRACO
+- React Testing Library and Jest
 
-### `npm run eject`
+## Code structure
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```text
+src/
+  assets/                 Product icons used by the current interface
+  components/             Shared shell and UI components
+  hooks/                  Responsive device helper
+  pages/
+    vanArsdel/
+      components/         Workspace navigation and status UI
+      context/            Shared work and decision state
+      data/               Typed mock workspace data
+      pages/              Overview, timeline, decisions, and workstreams
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`WorkspaceProvider` owns the small amount of state shared across workspace pages. Task statuses and decision outcomes are stored in `localStorage`; filters that should survive sharing or refreshes stay in the URL. No external state library was added because the current product flow does not need one.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Important decisions
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Focused product boundary:** unfinished top-level Teams pages were removed instead of being presented as working features.
+- **Simple state ownership:** one small context is enough for the current shared state.
+- **Honest decision flow:** recording an outcome does not mark its related task as completed.
+- **Backward-compatible cleanup:** the corrected `/van-arsdel` route keeps a redirect from the original `/van-ardsel` path.
+- **Measured asset cleanup:** embedded avatar images and an unused icon package were replaced with lightweight UI elements. In the local production build, the main JavaScript bundle dropped from about 633 kB to 69 kB after gzip.
 
-## Learn More
+## Project evolution
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The first version was created in September 2024 to practise dashboard UI and nested routing. In 2026, I returned to the repository and improved it incrementally while preserving the original Git history.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The revival focused on fixing routing issues, turning placeholders into one coherent launch workflow, adding proportional tests, removing unsupported navigation, improving responsive behaviour, and documenting the remaining limitations.
+
+## Run locally
+
+```bash
+npm install
+npm start
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+For a clean install that follows the lock file:
+
+```bash
+npm ci
+```
+
+## Quality checks
+
+```bash
+npm run typecheck
+npm run lint
+npm run test:ci
+npm run build
+```
+
+The tests cover the main filters, nested routing, task persistence, decision persistence, and route recovery.
+
+## Current limitations
+
+- Workspace data is local mock data; there is no backend or authentication.
+- Changes are stored per browser and are not shared between users.
+- Due dates are relative sample values rather than calendar dates from an API.
+- The project still uses the older Create React App toolchain, which reports known maintenance warnings during tests and builds.
+
+## Possible next steps
+
+- Add a small API boundary when a real backend is available.
+- Add authentication and permissions only if the product becomes multi-user.
+- Migrate the build tool when deployment or maintenance provides a concrete reason.

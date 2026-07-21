@@ -14,7 +14,7 @@ const NotFoundPage = () => {
           The link may be outdated, or the page is outside the current launch workspace.
         </p>
         <Link
-          to='/van-ardsel/home'
+          to='/van-arsdel/home'
           className='mt-5 inline-flex rounded-lg bg-[#5B5FC7] px-4 py-2 text-sm font-medium text-white hover:bg-[#4F52B2]'
         >
           Back to launch overview

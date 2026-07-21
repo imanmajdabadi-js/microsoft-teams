@@ -1,6 +1,7 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "van-arsdel-launch-control",
+  "version": "0.2.0",
+  "description": "A responsive launch-control workspace for tracking workstreams, deadlines, blockers, and decisions.",
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -12,7 +13,6 @@
     "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
     "clsx": "^2.1.1",
-    "iconsax-react": "^0.0.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-responsive": "^10.0.0",
@@ -26,7 +26,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "lint:json": "eslint '**/*.json'"
+    "test:ci": "craco test --watchAll=false --runInBand",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings=0"
   },
   "eslintConfig": {
     "extends": [

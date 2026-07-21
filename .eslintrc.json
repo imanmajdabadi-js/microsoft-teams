@@ -15,6 +15,12 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "ignorePatterns": ["src/react-app-env.d.ts"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     "quotes": ["error", "single"],
     "max-len": [
